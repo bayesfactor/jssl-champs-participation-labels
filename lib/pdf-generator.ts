@@ -57,9 +57,10 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
           // Page setup
           const pageWidth = pdf.internal.pageSize.getWidth()
           const pageHeight = pdf.internal.pageSize.getHeight()
-          const margin = 8
-          const cellWidth = (pageWidth - 2 * margin) / columns
-          const cellHeight = 26
+          const w_margin = 7
+          const h_margin = 10
+          const cellWidth = (pageWidth - 2 * w_margin) / columns
+          const cellHeight = 26.5
           const fontSize = 10
 
           pdf.setFontSize(fontSize)
@@ -73,14 +74,14 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
 
           // Draw table
           let athleteIndex = 0
-          let y = margin - cellHeight
+          let y = h_margin - cellHeight
           for (let row = 0; row < rows; row++) {
             y = y + cellHeight
 
             // Check if we need a new page
-            if (y + cellHeight > pageHeight - margin) {
+            if (y + cellHeight > pageHeight - h_margin) {
               pdf.addPage()
-              y = margin
+              y = h_margin
               //pdf.setFontSize(16)
               //pdf.text(`Athlete List - ${staticText} (continued)`, margin, margin)
               //pdf.setFontSize(12)
@@ -91,7 +92,7 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
             for (let col = 0; col < columns; col++) {
               if (athleteIndex < totalAthletes) {
                 const athlete = athletes[athleteIndex]
-                const x = margin + col * cellWidth
+                const x = w_margin + col * cellWidth
                 const cellY = y
 
                 // Draw cell border
