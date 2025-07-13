@@ -59,17 +59,17 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
           const pageHeight = pdf.internal.pageSize.getHeight()
           const margin = 10
           const cellWidth = (pageWidth - 2 * margin) / columns
-          const cellHeight = 38
+          const cellHeight = 34
           const fontSize = 10
 
           pdf.setFontSize(fontSize)
 
           // Add title
-          pdf.setFontSize(16)
-          pdf.text(`Athlete List - ${staticText}`, margin, margin)
-          pdf.setFontSize(12)
-          pdf.text(`Date: ${formattedDate}`, margin, margin + 8)
-          pdf.setFontSize(fontSize)
+          //pdf.setFontSize(16)
+          //pdf.text(`Athlete List - ${staticText}`, margin, margin)
+          //pdf.setFontSize(12)
+          //pdf.text(`Date: ${formattedDate}`, margin, margin + 8)
+          //pdf.setFontSize(fontSize)
 
           // Draw table
           let athleteIndex = 0
@@ -80,11 +80,11 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
             // Check if we need a new page
             if (y + cellHeight > pageHeight - margin) {
               pdf.addPage()
-              pdf.setFontSize(16)
-              pdf.text(`Athlete List - ${staticText} (continued)`, margin, margin)
-              pdf.setFontSize(12)
-              pdf.text(`Date: ${formattedDate}`, margin, margin + 8)
-              pdf.setFontSize(fontSize)
+              //pdf.setFontSize(16)
+              //pdf.text(`Athlete List - ${staticText} (continued)`, margin, margin)
+              //pdf.setFontSize(12)
+              //pdf.text(`Date: ${formattedDate}`, margin, margin + 8)
+              //pdf.setFontSize(fontSize)
             }
 
             for (let col = 0; col < columns; col++) {
@@ -94,13 +94,13 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
                 const cellY = y
 
                 // Draw cell border
-                pdf.rect(x, cellY, cellWidth, cellHeight)
+                //pdf.rect(x, cellY, cellWidth, cellHeight)
 
                 // Add content to cell
                 pdf.text(`${athlete.athlete_first_name} ${athlete.athlete_last_name}`, x + 3, cellY + 10)
-                pdf.text(`Age Group: ${athlete.athlete_age_group}`, x + 3, cellY + 18)
-                pdf.text(`${staticText}`, x + 3, cellY + 26)
-                pdf.text(`JSSL Championships ${longDate}`, x + 3, cellY + 34)
+                pdf.text(`Age Group: ${athlete.athlete_age_group}`, x + 3, cellY + 16)
+                pdf.text(`${staticText}`, x + 3, cellY + 22)
+                pdf.text(`JSSL Championships ${longDate}`, x + 3, cellY + 28)
 
                 athleteIndex++
               }
