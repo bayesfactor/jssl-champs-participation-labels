@@ -17,22 +17,24 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       classNames={{
         months: "flex flex-col sm:flex-row gap-4",
         month: "space-y-4",
-        // Change caption to justify-between to place nav buttons at ends
+        // Keep caption to control header layout
         caption: "flex justify-between pt-1 items-center",
         caption_label: "text-sm font-medium",
         nav: "space-x-1 flex items-center",
-        // Remove absolute positioning from nav buttons
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
           "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
         ),
-        nav_button_previous: "", // Remove absolute left-1
-        nav_button_next: "", // Remove absolute right-1
-        table: "w-full border-collapse table-fixed",
-        head_row: "table-row",
-        head_cell: "h-9 w-9 text-muted-foreground rounded-md font-normal text-[0.8rem] table-cell text-center",
-        row: "table-row",
-        cell: "h-9 text-center text-sm p-0 relative table-cell",
+        // Remove absolute positioning from nav buttons
+        nav_button_previous: "",
+        nav_button_next: "",
+        // Remove custom table structure classes
+        // table: "w-full border-collapse table-fixed",
+        // head_row: "table-row",
+        // head_cell: "h-9 w-9 text-muted-foreground rounded-md font-normal text-[0.8rem] table-cell text-center",
+        // row: "table-row",
+        // cell: "h-9 text-center text-sm p-0 relative table-cell",
+        // Keep day class for styling individual day buttons
         day: cn(buttonVariants({ variant: "ghost" }), "h-9 w-9 p-0 font-normal"),
         day_range_end: "day-range-end",
         day_selected:
