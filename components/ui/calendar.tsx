@@ -29,7 +29,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         // Change the table layout here:
         table: "w-full border-collapse table-fixed",
         head_row: "table-row",
-        head_cell: "h-9 text-muted-foreground rounded-md font-normal text-[0.8rem] table-cell text-center",
+        // Add w-9 to head_cell to match day cell width
+        head_cell: "h-9 w-9 text-muted-foreground rounded-md font-normal text-[0.8rem] table-cell text-center",
         row: "table-row",
         cell: "h-9 text-center text-sm p-0 relative table-cell",
         day: cn(buttonVariants({ variant: "ghost" }), "h-9 w-9 p-0 font-normal"),

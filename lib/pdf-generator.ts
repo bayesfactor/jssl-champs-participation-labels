@@ -60,7 +60,7 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
           const w_margin = 7
           const h_margin = 10
           const cellWidth = (pageWidth - 2 * w_margin) / columns
-          const cellHeight = 26.5
+          const cellHeight = 27
           const fontSize = 10
 
           pdf.setFontSize(fontSize)
