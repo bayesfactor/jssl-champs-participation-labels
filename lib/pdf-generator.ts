@@ -57,9 +57,9 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
           // Page setup
           const pageWidth = pdf.internal.pageSize.getWidth()
           const pageHeight = pdf.internal.pageSize.getHeight()
-          const margin = 10
+          const margin = 8
           const cellWidth = (pageWidth - 2 * margin) / columns
-          const cellHeight = 30
+          const cellHeight = 26
           const fontSize = 10
 
           pdf.setFontSize(fontSize)
@@ -98,10 +98,10 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
                 //pdf.rect(x, cellY, cellWidth, cellHeight)
 
                 // Add content to cell
-                pdf.text(`${athlete.athlete_first_name} ${athlete.athlete_last_name}`, x + 3, cellY + 6)
-                pdf.text(`Age Group: ${athlete.athlete_age_group}`, x + 3, cellY + 12)
-                pdf.text(`${staticText}`, x + 3, cellY + 18)
-                pdf.text(`JSSL Championships ${longDate}`, x + 3, cellY + 24)
+                pdf.text(`${athlete.athlete_first_name} ${athlete.athlete_last_name}`, x + 3, cellY + 5)
+                pdf.text(`${athlete.athlete_age_group}`, x + 3, cellY + 10)
+                pdf.text(`${staticText}`, x + 3, cellY + 15)
+                pdf.text(`JSSL Championships ${longDate}`, x + 3, cellY + 20)
 
                 athleteIndex++
               }

@@ -26,7 +26,8 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
-        table: "w-full border-collapse table-auto",
+        // Change the table layout here:
+        table: "w-full border-collapse table-fixed",
         head_row: "table-row",
         head_cell: "h-9 w-9 text-muted-foreground rounded-md font-normal text-[0.8rem] table-cell text-center",
         row: "table-row",
