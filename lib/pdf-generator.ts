@@ -99,8 +99,10 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
                 //pdf.rect(x, cellY, cellWidth, cellHeight)
 
                 // Add content to cell
+                pdf.setFontSize(12)
                 pdf.text(`${athlete.athlete_first_name} ${athlete.athlete_last_name}`, x + 3, cellY + 5)
                 pdf.text(`${athlete.athlete_age_group}`, x + 3, cellY + 10)
+                pdf.setFontSize(fontSize)
                 pdf.text(`${staticText}`, x + 3, cellY + 15)
                 pdf.text(`JSSL Championships ${longDate}`, x + 3, cellY + 20)
 
