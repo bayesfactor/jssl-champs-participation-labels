@@ -39,6 +39,12 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
 
           // Format the date
           const formattedDate = format(staticDate, "MM/dd/yyyy")
+          const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: 'long', // 'long' for full month name (e.g., "July")
+            day: 'numeric',
+          };
+          const longDate = staticDate.toLocaleDateString('en-US', options);
 
           // Create PDF
           const pdf = new jsPDF()
@@ -53,7 +59,7 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
           const pageHeight = pdf.internal.pageSize.getHeight()
           const margin = 10
           const cellWidth = (pageWidth - 2 * margin) / columns
-          const cellHeight = 30
+          const cellHeight = 38
           const fontSize = 10
 
           pdf.setFontSize(fontSize)
@@ -93,7 +99,8 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
                 // Add content to cell
                 pdf.text(`${athlete.athlete_first_name} ${athlete.athlete_last_name}`, x + 3, cellY + 10)
                 pdf.text(`Age Group: ${athlete.athlete_age_group}`, x + 3, cellY + 18)
-                pdf.text(`Team: ${staticText}`, x + 3, cellY + 26)
+                pdf.text(`${staticText}`, x + 3, cellY + 26)
+                pdf.text(`JSSL Championships ${longDate}`, x + 3, cellY + 34)
 
                 athleteIndex++
               }
