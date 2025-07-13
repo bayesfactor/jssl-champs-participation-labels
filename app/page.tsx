@@ -75,7 +75,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-24">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>CSV to PDF Generator</CardTitle>
+          <CardTitle>JSSL Champs Participation Label Generator</CardTitle>
           <CardDescription>
             Upload a CSV file with athlete information to generate a formatted PDF table of participation labels.
           </CardDescription>
@@ -88,7 +88,7 @@ export default function Home() {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="csv-file">Upload CSV File</Label>
+            <Label htmlFor="csv-file">Upload CSV file with athlete info</Label>
             <div className="flex items-center gap-2">
               <Input id="csv-file" type="file" accept=".csv" onChange={handleFileChange} className="flex-1" />
             </div>
@@ -113,7 +113,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="date">Select Date</Label>
+            <Label htmlFor="date">Championships Meet Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
