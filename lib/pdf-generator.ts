@@ -73,14 +73,14 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
 
           // Draw table
           let athleteIndex = 0
-          let y = margin + 5
+          let y = margin - cellHeight
           for (let row = 0; row < rows; row++) {
-            y = y + row * cellHeight
+            y = y + cellHeight
 
             // Check if we need a new page
             if (y + cellHeight > pageHeight - margin) {
               pdf.addPage()
-              y = margin + 5
+              y = margin
               //pdf.setFontSize(16)
               //pdf.text(`Athlete List - ${staticText} (continued)`, margin, margin)
               //pdf.setFontSize(12)
