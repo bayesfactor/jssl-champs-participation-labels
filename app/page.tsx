@@ -77,7 +77,7 @@ export default function Home() {
         <CardHeader>
           <CardTitle>CSV to PDF Generator</CardTitle>
           <CardDescription>
-            Upload a CSV file to generate a formatted PDF table with athlete information.
+            Upload a CSV file with athlete information to generate a formatted PDF table of participation labels.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
