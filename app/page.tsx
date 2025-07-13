@@ -104,10 +104,10 @@ export default function Home() {
               <SelectContent>
                 <SelectItem value="Greenmeadow Marlins">Greenmeadow Marlins</SelectItem>
                 <SelectItem value="Brookside Waves">Brookside Waves</SelectItem>
-                <SelectItem value="Laurelwood">Laurelwood</SelectItem>
+                <SelectItem value="Laurelwood Dolphins">Laurelwood Dolphins</SelectItem>
                 <SelectItem value="Eichler Gators">Eichler Gators</SelectItem>
-                <SelectItem value="Saratoga Woods">Saratoga Woods</SelectItem>
-                <SelectItem value="Cupertino Hills">Cupertino Hills</SelectItem>
+                <SelectItem value="Saratoga Woods Dolphins">Saratoga Woods Dolphins</SelectItem>
+                <SelectItem value="Cupertino Hills Sharks">Cupertino Hills Sharks</SelectItem>
               </SelectContent>
             </Select>
           </div>
