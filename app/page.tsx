@@ -1,103 +1,142 @@
-import Image from "next/image";
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Calendar } from "@/components/ui/calendar"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { generatePDF } from "@/lib/pdf-generator"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [file, setFile] = useState<File | null>(null)
+  const [staticText, setStaticText] = useState<string>("")
+  const [date, setDate] = useState<Date>(() => {
+    // Get current year
+    const currentYear = new Date().getFullYear()
+    // Find the second Sunday in July of the current year
+    const date = new Date(currentYear, 6, 1) // July 1st of current year
+    // Find the first Sunday
+    while (date.getDay() !== 0) {
+      date.setDate(date.getDate() + 1)
+    }
+    // Add 7 days to get to the second Sunday
+    date.setDate(date.getDate() + 7)
+    return date
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0]
+      if (selectedFile.type !== "text/csv") {
+        setError("Please upload a CSV file")
+        setFile(null)
+        return
+      }
+      setFile(selectedFile)
+      setError(null)
+    }
+  }
+
+  const handleSubmit = async () => {
+    if (!file) {
+      setError("Please upload a CSV file")
+      return
+    }
+
+    if (!staticText) {
+      setError("Please select a team")
+      return
+    }
+
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      await generatePDF(file, staticText, date)
+      setIsLoading(false)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred while generating the PDF")
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-24">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>CSV to PDF Generator</CardTitle>
+          <CardDescription>
+            Upload a CSV file to generate a formatted PDF table with athlete information.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+
+          <div className="space-y-2">
+            <Label htmlFor="csv-file">Upload CSV File</Label>
+            <div className="flex items-center gap-2">
+              <Input id="csv-file" type="file" accept=".csv" onChange={handleFileChange} className="flex-1" />
+            </div>
+            {file && <p className="text-sm text-muted-foreground">Selected: {file.name}</p>}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="team">Select Team</Label>
+            <Select onValueChange={setStaticText} value={staticText}>
+              <SelectTrigger id="team">
+                <SelectValue placeholder="Select a team" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Greenmeadow Marlins">Greenmeadow Marlins</SelectItem>
+                <SelectItem value="Brookside Waves">Brookside Waves</SelectItem>
+                <SelectItem value="Laurelwood">Laurelwood</SelectItem>
+                <SelectItem value="Eichler Gators">Eichler Gators</SelectItem>
+                <SelectItem value="Saratoga Woods">Saratoga Woods</SelectItem>
+                <SelectItem value="Cupertino Hills">Cupertino Hills</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="date">Select Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  id="date"
+                  variant={"outline"}
+                  className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? format(date, "PPP") : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar mode="single" selected={date} onSelect={(date) => date && setDate(date)} initialFocus />
+              </PopoverContent>
+            </Popover>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button className="w-full" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? "Generating..." : "Generate PDF"}
+          </Button>
+        </CardFooter>
+      </Card>
+    </main>
+  )
 }
