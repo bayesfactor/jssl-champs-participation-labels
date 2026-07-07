@@ -108,6 +108,7 @@ export default function Home() {
                 <SelectItem value="Eichler Gators">Eichler Gators</SelectItem>
                 <SelectItem value="Saratoga Woods Dolphins">Saratoga Woods Dolphins</SelectItem>
                 <SelectItem value="Cupertino Hills Sharks">Cupertino Hills Sharks</SelectItem>
+                <SelectItem value="Fairbrae Manta Rays">Fairbrae Manta Rays</SelectItem>
               </SelectContent>
             </Select>
           </div>
