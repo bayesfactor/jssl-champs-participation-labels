@@ -15,36 +15,39 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{
-        months: "flex flex-col sm:flex-row gap-4",
+        // react-day-picker v9 classNames
+        months: "relative flex flex-col sm:flex-row gap-4",
         month: "space-y-4",
-        // Keep caption to control header layout
-        caption: "flex justify-between pt-1 items-center",
-        caption_label: "text-sm font-medium",
-        nav: "space-x-1 flex items-center",
-        nav_button: cn(
+        // Nav (both arrows) is a sibling of the month; span the header row so
+        // the previous arrow sits at the left edge and the next arrow at the right.
+        nav: "absolute inset-x-1 top-1 flex items-center justify-between h-7 z-10",
+        button_previous: cn(
           buttonVariants({ variant: "outline" }),
           "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
         ),
-        // Remove absolute positioning from nav buttons
-        nav_button_previous: "",
-        nav_button_next: "",
-        // Remove custom table structure classes
-        // table: "w-full border-collapse table-fixed",
-        // head_row: "table-row",
-        // head_cell: "h-9 w-9 text-muted-foreground rounded-md font-normal text-[0.8rem] table-cell text-center",
-        // row: "table-row",
-        // cell: "h-9 text-center text-sm p-0 relative table-cell",
-        // Keep day class for styling individual day buttons
-        day: cn(buttonVariants({ variant: "ghost" }), "h-9 w-9 p-0 font-normal"),
-        day_range_end: "day-range-end",
-        day_selected:
-          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        day_today: "bg-accent text-accent-foreground",
-        day_outside:
-          "day-outside text-muted-foreground opacity-50",
-        day_disabled: "text-muted-foreground opacity-50",
-        day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
-        day_hidden: "invisible",
+        button_next: cn(
+          buttonVariants({ variant: "outline" }),
+          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+        ),
+        // Centered month label, same height as the nav row so they align.
+        month_caption: "flex justify-center items-center h-7 pt-1",
+        caption_label: "text-sm font-medium",
+        // Grid: weekday header cells and day cells share the same width so
+        // the weekday names line up over their columns.
+        month_grid: "w-full border-collapse space-y-1",
+        weekdays: "flex",
+        weekday: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+        week: "flex w-full mt-2",
+        day: "h-9 w-9 text-center text-sm p-0 relative focus-within:relative focus-within:z-20",
+        day_button: cn(buttonVariants({ variant: "ghost" }), "h-9 w-9 p-0 font-normal aria-selected:opacity-100"),
+        range_end: "day-range-end",
+        selected:
+          "[&>button]:bg-primary [&>button]:text-primary-foreground [&>button]:hover:bg-primary [&>button]:hover:text-primary-foreground [&>button]:focus:bg-primary [&>button]:focus:text-primary-foreground",
+        today: "[&>button]:bg-accent [&>button]:text-accent-foreground",
+        outside: "text-muted-foreground opacity-50",
+        disabled: "text-muted-foreground opacity-50",
+        range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
+        hidden: "invisible",
         ...classNames,
       }}
       components={{
