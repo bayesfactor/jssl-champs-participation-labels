@@ -46,8 +46,8 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
           };
           const longDate = staticDate.toLocaleDateString('en-US', options);
 
-          // Create PDF
-          const pdf = new jsPDF()
+          // Create PDF (US Letter: 8.5 x 11 in, dimensions in mm)
+          const pdf = new jsPDF({ unit: "mm", format: "letter" })
 
           // Set up table dimensions
           const totalAthletes = athletes.length
