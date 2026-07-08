@@ -64,6 +64,10 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
           const h_margin = 0.5 * MM_PER_IN // 0.5" top margin = 12.7mm
           const cellWidth = (pageWidth - 2 * w_margin) / columns
           const cellHeight = 1.0 * MM_PER_IN // 1" label height = 25.4mm (also the row pitch)
+          // Progressive per-column horizontal nudge: the left column stays put,
+          // the middle shifts +1mm and the right column +2mm to line up with the
+          // physical label columns.
+          const col_nudge = 1
           const fontSize = 10
 
           pdf.setFontSize(fontSize)
@@ -95,7 +99,7 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
             for (let col = 0; col < columns; col++) {
               if (athleteIndex < totalAthletes) {
                 const athlete = athletes[athleteIndex]
-                const x = w_margin + col * cellWidth
+                const x = w_margin + col * cellWidth + col * col_nudge
                 const cellY = y
 
                 // Draw cell border
