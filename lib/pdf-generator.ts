@@ -54,13 +54,16 @@ export async function generatePDF(file: File, staticText: string, staticDate: Da
           const columns = 3
           const rows = Math.ceil(totalAthletes / columns)
 
-          // Page setup
+          // Page setup — dimensions match the Avery 5160 label template.
+          // (US Letter, 3 x 10 labels, each 1" tall with a 0.5" top margin
+          // and no vertical gap between rows.)
+          const MM_PER_IN = 25.4
           const pageWidth = pdf.internal.pageSize.getWidth()
           const pageHeight = pdf.internal.pageSize.getHeight()
           const w_margin = 7
-          const h_margin = 10
+          const h_margin = 0.5 * MM_PER_IN // 0.5" top margin = 12.7mm
           const cellWidth = (pageWidth - 2 * w_margin) / columns
-          const cellHeight = 27
+          const cellHeight = 1.0 * MM_PER_IN // 1" label height = 25.4mm (also the row pitch)
           const fontSize = 10
 
           pdf.setFontSize(fontSize)
