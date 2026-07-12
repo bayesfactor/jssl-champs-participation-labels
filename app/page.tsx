@@ -78,6 +78,7 @@ export default function Home() {
           <CardTitle>JSSL Champs Participation Label Generator</CardTitle>
           <CardDescription>
             Upload a CSV file with athlete information to generate a formatted PDF table of participation labels.
+            The output is formatted for Avery 5160 labels (30 labels per sheet, 1&quot; &times; 2⅝&quot;).
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -132,10 +133,13 @@ export default function Home() {
             </Popover>
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex-col items-stretch gap-2">
           <Button className="w-full" onClick={handleSubmit} disabled={isLoading}>
             {isLoading ? "Generating..." : "Generate PDF"}
           </Button>
+          <p className="text-center text-xs text-muted-foreground">
+            Print the generated PDF onto Avery 5160 label sheets (30 labels per sheet).
+          </p>
         </CardFooter>
       </Card>
     </main>
